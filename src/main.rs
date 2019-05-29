@@ -2,7 +2,7 @@ extern crate rand;
 
 use std::io;
 use std::fs;
-use std::net::{TcpListener, TcpStream};
+use std::net::{TcpListener, TcpStream, SocketAddr, ToSocketAddrs};
 use std::io::{Write};
 use rand::Rng;
 
@@ -102,7 +102,7 @@ fn handle_client(mut stream: TcpStream) -> io::Result<()> {
 
 fn main() -> io::Result<()>{
     let ip = fs::read_to_string("ip.txt").expect("Something went wrong.");
-    let listener = TcpListener::bind(ip)?;
+    let listener = TcpListener::bind(ip.trim())?;
     for x in listener.incoming(){
         handle_client(x?);
     }
